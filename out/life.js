@@ -21592,15 +21592,15 @@ goog.require("cljs.core");
 goog.require("clojure.set");
 goog.require("clojure.set");
 life.life.new_board = cljs.core.ObjMap.EMPTY;
-life.life.neighbors = function neighbors(board, p__64504) {
-  var vec__64508 = p__64504;
-  var x = cljs.core.nth.call(null, vec__64508, 0, null);
-  var y = cljs.core.nth.call(null, vec__64508, 1, null);
+life.life.neighbors = function neighbors(board, p__74255) {
+  var vec__74259 = p__74255;
+  var x = cljs.core.nth.call(null, vec__74259, 0, null);
+  var y = cljs.core.nth.call(null, vec__74259, 1, null);
   var offsets = cljs.core.PersistentVector.fromArray([cljs.core.PersistentVector.fromArray([0, 1], true), cljs.core.PersistentVector.fromArray([0, -1], true), cljs.core.PersistentVector.fromArray([1, 0], true), cljs.core.PersistentVector.fromArray([1, 1], true), cljs.core.PersistentVector.fromArray([1, -1], true), cljs.core.PersistentVector.fromArray([-1, 0], true), cljs.core.PersistentVector.fromArray([-1, 1], true), cljs.core.PersistentVector.fromArray([-1, -1], true)], true);
-  return cljs.core.map.call(null, function(p__64509) {
-    var vec__64510 = p__64509;
-    var xoff = cljs.core.nth.call(null, vec__64510, 0, null);
-    var yoff = cljs.core.nth.call(null, vec__64510, 1, null);
+  return cljs.core.map.call(null, function(p__74260) {
+    var vec__74261 = p__74260;
+    var xoff = cljs.core.nth.call(null, vec__74261, 0, null);
+    var yoff = cljs.core.nth.call(null, vec__74261, 1, null);
     return cljs.core.PersistentVector.fromArray([x + xoff, y + yoff], true)
   }, offsets)
 };
@@ -21638,6 +21638,10 @@ life.life.blinker = cljs.core.PersistentHashSet.fromArray([cljs.core.PersistentV
 life.life.beacon = cljs.core.PersistentHashSet.fromArray([cljs.core.PersistentVector.fromArray([2, 1], true), cljs.core.PersistentVector.fromArray([4, 3], true), cljs.core.PersistentVector.fromArray([4, 4], true), cljs.core.PersistentVector.fromArray([1, 1], true), cljs.core.PersistentVector.fromArray([3, 4], true), cljs.core.PersistentVector.fromArray([1, 2], true)]);
 life.life.glider = cljs.core.PersistentHashSet.fromArray([cljs.core.PersistentVector.fromArray([52, 51], true), cljs.core.PersistentVector.fromArray([51, 51], true), cljs.core.PersistentVector.fromArray([51, 52], true), cljs.core.PersistentVector.fromArray([52, 53], true), cljs.core.PersistentVector.fromArray([53, 51], true)]);
 life.life.cube = cljs.core.PersistentHashSet.fromArray([cljs.core.PersistentVector.fromArray([1, 0], true), cljs.core.PersistentVector.fromArray([0, 0], true), cljs.core.PersistentVector.fromArray([1, 1], true), cljs.core.PersistentVector.fromArray([0, 1], true)]);
+life.life.shooter = cljs.core.PersistentHashSet.fromArray([cljs.core.PersistentVector.fromArray([37, 5], true), cljs.core.PersistentVector.fromArray([36, 5], true), cljs.core.PersistentVector.fromArray([37, 6], true), cljs.core.PersistentVector.fromArray([36, 6], true), cljs.core.PersistentVector.fromArray([3, 7], true), cljs.core.PersistentVector.fromArray([2, 7], true), cljs.core.PersistentVector.fromArray([3, 8], true), cljs.core.PersistentVector.fromArray([2, 8], true), cljs.core.PersistentVector.fromArray([26, 
+3], true), cljs.core.PersistentVector.fromArray([26, 4], true), cljs.core.PersistentVector.fromArray([24, 4], true), cljs.core.PersistentVector.fromArray([23, 5], true), cljs.core.PersistentVector.fromArray([26, 8], true), cljs.core.PersistentVector.fromArray([22, 5], true), cljs.core.PersistentVector.fromArray([23, 6], true), cljs.core.PersistentVector.fromArray([26, 9], true), cljs.core.PersistentVector.fromArray([22, 6], true), cljs.core.PersistentVector.fromArray([23, 7], true), cljs.core.PersistentVector.fromArray([24, 
+8], true), cljs.core.PersistentVector.fromArray([22, 7], true), cljs.core.PersistentVector.fromArray([17, 6], true), cljs.core.PersistentVector.fromArray([18, 7], true), cljs.core.PersistentVector.fromArray([19, 8], true), cljs.core.PersistentVector.fromArray([15, 5], true), cljs.core.PersistentVector.fromArray([18, 8], true), cljs.core.PersistentVector.fromArray([14, 5], true), cljs.core.PersistentVector.fromArray([18, 9], true), cljs.core.PersistentVector.fromArray([16, 8], true), cljs.core.PersistentVector.fromArray([13, 
+6], true), cljs.core.PersistentVector.fromArray([17, 10], true), cljs.core.PersistentVector.fromArray([12, 7], true), cljs.core.PersistentVector.fromArray([12, 8], true), cljs.core.PersistentVector.fromArray([15, 11], true), cljs.core.PersistentVector.fromArray([12, 9], true), cljs.core.PersistentVector.fromArray([13, 10], true), cljs.core.PersistentVector.fromArray([14, 11], true)]);
 goog.provide("life");
 goog.require("cljs.core");
 goog.require("life.grid_view");
@@ -21659,7 +21663,7 @@ life.run = function run() {
   life.grid_view.display.call(null, cljs.core.deref.call(null, life.current_view), cljs.core.deref.call(null, life.current_board));
   cljs.core.swap_BANG_.call(null, life.current_board, life.life.step);
   if(cljs.core.truth_(cljs.core.deref.call(null, life.running))) {
-    return setTimeout(run, 250)
+    return setTimeout(run, 50)
   }else {
     return null
   }
@@ -21672,8 +21676,8 @@ life.init = function init() {
   window.onresize = function() {
     return life.resize.call(null, canvas)
   };
-  life.current_view = cljs.core.atom.call(null, life.grid_view.new_view.call(null, canvas, cljs.core.PersistentVector.fromArray([0, 0], true), 10));
-  life.current_board = cljs.core.atom.call(null, life.life.cube);
+  life.current_view = cljs.core.atom.call(null, life.grid_view.new_view.call(null, canvas, cljs.core.PersistentVector.fromArray([0, 0], true), 75));
+  life.current_board = cljs.core.atom.call(null, life.life.shooter);
   life.running = cljs.core.atom.call(null, true);
   return life.run.call(null)
 };
@@ -21702,3 +21706,7 @@ life.reset = function reset() {
   return life.grid_view.display.call(null, cljs.core.deref.call(null, life.current_view), cljs.core.deref.call(null, life.current_board))
 };
 goog.exportSymbol("life.reset", life.reset);
+life.output_board = function output_board() {
+  return console.log(cljs.core.pr_str.call(null, cljs.core.deref.call(null, life.current_board)))
+};
+goog.exportSymbol("life.output_board", life.output_board);

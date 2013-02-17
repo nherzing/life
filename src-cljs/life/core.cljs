@@ -25,7 +25,7 @@
 (defn run []
   (grid-view/display @current-view @current-board)
   (swap! current-board life/step)
-  (if @running (js/setTimeout run 250)))
+  (if @running (js/setTimeout run 50)))
 
 (defn ^:export init []
   (let [canvas (.getElementById js/document "canvas")]
@@ -33,8 +33,8 @@
     (set! (.-height canvas) (+ -50 (.-height js/document)))
     (set! (.-onmouseup canvas) (partial onclick canvas))
     (set! (.-onresize js/window) (fn [] (resize canvas)))
-    (def current-view (atom (grid-view/new-view canvas [0 0] 10)))
-    (def current-board (atom life/cube))
+    (def current-view (atom (grid-view/new-view canvas [0 0] 75)))
+    (def current-board (atom life/shooter))
     (def running (atom true))
     (run)))
 
@@ -51,4 +51,10 @@
 
 (defn ^:export reset [] (reset! current-board life/new-board)
   (grid-view/display @current-view @current-board))
+
+(defn ^:export output-board [] (.log js/console (pr-str @current-board)))
+
+
+
+
 
