@@ -58,7 +58,7 @@
     ctx (ctx view)
     csize (cell-size view)]
     (set! (.-strokeStyle ctx) "rgba(50, 50, 50, 1)")
-    (set! (.-lineWidth ctx) 1)
+    (set! (.-lineWidth ctx) .1)
     (doseq [x (map (partial * csize) (range (size-x view)))]
       (.beginPath ctx)
       (.moveTo ctx x 0)

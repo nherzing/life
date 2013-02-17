@@ -25,7 +25,7 @@
 (defn run []
   (grid-view/display @current-view @current-board)
   (swap! current-board life/step)
-  (if @running (js/setTimeout run 500)))
+  (if @running (js/setTimeout run 250)))
 
 (defn ^:export init []
   (let [canvas (.getElementById js/document "canvas")]
