@@ -47,13 +47,17 @@
 (defn draw-cell [view [x y]]
   (let [size (cell-size view)
         ctx (ctx view)]
-    (set! (.-fillStyle ctx) "green")
-    (.fillRect ctx (inc (* x size)) (inc (* y size)) (- size CELL_PADDING) (- size CELL_PADDING))))
+    (set! (.-lineWidth ctx) .5)
+    (set! (.-fillStyle ctx) "rgba(115, 117, 222, .5)")
+    (.fillRect ctx (inc (* x size)) (inc (* y size)) (- size CELL_PADDING) (- size CELL_PADDING))
+    (set! (.-strokeStyle ctx) "rgba(75, 77, 224, 1)")
+    (.strokeRect ctx (inc (* x size)) (inc (* y size)) (- size CELL_PADDING) (- size CELL_PADDING))))
 
 (defn draw-grid [view]
   (let [
     ctx (ctx view)
     csize (cell-size view)]
+    (set! (.-strokeStyle ctx) "rgba(50, 50, 50, 1)")
     (set! (.-lineWidth ctx) 1)
     (doseq [x (map (partial * csize) (range (size-x view)))]
       (.beginPath ctx)
