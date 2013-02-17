@@ -8,30 +8,41 @@
 (defn origin-x [{:keys [origin]}] (origin 0))
 (defn origin-y [{:keys [origin]}] (origin 1))
 
+
 (defn ctx [{:keys [canvas]}]
   (.getContext canvas "2d"))
 
 (defn width [{:keys [canvas]}]
   (.-width canvas))
 
-(def height width)
+(defn height [{:keys [canvas]}]
+  (.-height canvas))
 
 (defn cell-size [{:keys [canvas size]}]
-  (/ (.-width canvas) size))
+  (quot (.-width canvas) size))
+
+(defn size-x [{:keys [size]}] size)
+(defn size-y [view]
+  (/ (height view) (cell-size view)))
 
 (defn cell-visible? [view [x y]]
   (let [
-    size (view :size)
     origin-x (origin-x view)
     origin-y (origin-y view)]
-    (and (<= origin-x x (+ origin-x size))
-         (<= origin-y y (+ origin-y size)))))
+    (and (<= origin-x x (+ origin-x (size-x view)))
+         (<= origin-y y (+ origin-y (size-y view))))))
 
 (defn clear [view]
   (.clearRect (ctx view) 0 0 (width view) (height view)))
 
 (defn normalize [view [x y]]
   [(- x (origin-x view)) (- y (origin-y view))])
+
+(defn denormalize [view [x y]]
+  [(+ x (origin-x view)) (+ y (origin-y view))])
+
+(defn cell-at [view [screen-x screen-y]]
+  (denormalize view [(quot screen-x (cell-size view)) (quot screen-y (cell-size view))]))
 
 (defn draw-cell [view [x y]]
   (let [size (cell-size view)
@@ -44,12 +55,12 @@
     ctx (ctx view)
     csize (cell-size view)]
     (set! (.-lineWidth ctx) 1)
-    (doseq [x (map (partial * csize) (range (view :size)))]
+    (doseq [x (map (partial * csize) (range (size-x view)))]
       (.beginPath ctx)
       (.moveTo ctx x 0)
       (.lineTo ctx x (height view))
       (.stroke ctx))
-    (doseq [y (map (partial * csize) (range (view :size)))]
+    (doseq [y (map (partial * csize) (range (size-y view)))]
       (.beginPath ctx)
       (.moveTo ctx 0 y)
       (.lineTo ctx (width view) y)

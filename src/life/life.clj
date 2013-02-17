@@ -24,6 +24,10 @@
     come-alive? (fn [pt] (= 3 (dead-cells pt)))]
     (union (select stay-alive? board) (select come-alive? (set (keys dead-cells))))))
 
+(defn toggle-cell [pt board]
+  (.log js/console (pr-str pt))
+  ((if (board pt) disj conj) board pt))
+
 (def blinker #{[5 5] [6 5] [7 5]})
 (def beacon #{[1 1] [1 2] [2 1] [3 4] [4 3] [4 4]})
 (def glider #{[51 51] [52 51] [53 51] [51 52] [52 53]})

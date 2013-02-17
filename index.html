@@ -2,6 +2,15 @@
   <head></head>
   <body onload="life.init()">
     <script type="text/javascript" src="out/life.js"></script>
-    <canvas id="canvas" width="1000" height="1000" style="border:solid;"></canvas>
+    <canvas id="canvas"></canvas>
+    <button onclick="life.pan(-1, 0)">left</button>
+    <button onclick="life.pan(1, 0)">right</button>
+    <button onclick="life.pan(0, -1)">up</button>
+    <button onclick="life.pan(0, 1)">down</button>
+    <button onclick="life.zoom(-1)">zoom out</button>
+    <button onclick="life.zoom(1)">zoom in</button>
+    <button onclick="life.pause()">pause</button>
+    <button onclick="life.play()">play</button>
+    <button onclick="life.reset()">reset</button>
   </body>
 </html>
